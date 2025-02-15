@@ -1,16 +1,22 @@
-// console.log("Hello World");
-
-// Creatig A Server
-
 const http = require("http");
+const url = require("url");
 
 const server = http.createServer((request, response) => {
     const method = request.method;
-    const url = response.url;
+    const path = url.parse(request.url, true);
 
-    if(method == "GET"){
-        response.end("Hello Welcome to the Node.js Server!")
+    // console.log(`Request received: ${method} ${path.pathname}`);
+
+    if (method === "GET" && path.pathname === "/") {
+        response.end(JSON.stringify({ hello: "world" }));
+    } else if (method === "POST" ) {
+
     }
-})
+    else {
+        response.end(JSON.stringify({ error: "Path not found!" }));
+    }
+});
 
-server.listen(4000)
+server.listen(5000, () => {
+    console.log("Server is running on port 5000");
+});
